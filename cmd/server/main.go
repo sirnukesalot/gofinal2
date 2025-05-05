@@ -15,10 +15,11 @@ func main() {
 	http.HandleFunc("/registration", handlers.Registration)
 	http.HandleFunc("/login", handlers.Login)
 	http.HandleFunc("/logout", handlers.Logout)
-	http.HandleFunc("/shop", handlers.Shop)
+	http.HandleFunc("/shop", handlers.ShopHandler)
 	http.HandleFunc("/add-to-cart", handlers.AddToCartHandler)
+	http.HandleFunc("/remove-from-cart", handlers.RemoveItemFromCartHandler)
 	http.HandleFunc("/cart", handlers.CartHandler)
-	http.HandleFunc("/remove-from-cart", handlers.RemoveFromCartHandler)
+	http.HandleFunc("/process-order", handlers.ProcessOrderHandler)
 	http.HandleFunc("/profile", handlers.GetProfile)
 
 	log.Println("Server started at http://localhost:8080")

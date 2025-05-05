@@ -1,12 +1,8 @@
 
 <!DOCTYPE html>
 <html>
-<head><title>Welcome</title>
+<head><title>Shop</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 0;
-        }
         ul {
             background: #333; 
             list-style-type: none;
@@ -42,27 +38,55 @@
             font-size: 15px;
             padding: 14px 16px;
         }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .item h3 {
+            margin: 0 0 5px;
+        }
+        .item form {
+            display: inline;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+        button {
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .empty {
+            font-style: italic;
+            color: gray;
+        }
     </style>
     </head>
 <body>
     <ul>
-            <li><a href="/cart">Cart</a></li>
+            <li><a href="/cart">Cart ({{ .CartCount }})</a></li>
             <li><form action="/logout" method="post"><input type="submit" value="Logout"></form></li>
     </ul>
-    <div>Welcome, {{.Username}}</div>
-    <h2>Shop</h2>
+    <h2>Welcome to the Shop!!!</h2>
+
     {{range .Items}}
     <div class="item">
         <h3>{{.Name}}</h3>
         <p>{{.Description}}</p>
-        <p>Price: ${{.Price}}</p>
-        <form method="post" action="/add-to-cart">
-            <input type="hidden" name="item" value="{{.Name}}">
+        <p>Price: ${{printf "%.2f" .Price}}</p>
+        <form method="POST" action="/add-to-cart">
+            <input type="hidden" name="item" value="{{.ID}}">
             <button type="submit">Add to Cart</button>
         </form>
     </div>
     {{else}}
     <p>No items available.</p>
     {{end}}
-</body>
+    </body>
 </html>

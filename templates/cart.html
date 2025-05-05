@@ -1,32 +1,64 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Your Cart</title>
     <style>
-        body { font-family: Arial; padding: 2rem; background: #fff7f0; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 1rem; border-bottom: 1px solid #ccc; }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .item h3 {
+            margin: 0 0 5px;
+        }
+        .item form {
+            display: inline;
+        }
+        .actions {
+            margin-top: 20px;
+        }
+        button {
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .empty {
+            font-style: italic;
+            color: gray;
+        }
     </style>
 </head>
 <body>
-    <h2>Your Cart</h2>
-    <table>
-        <tr><th>Item</th><th>Price</th><th>Action</th></tr>
-        {{range .CartItems}}
-        <tr>
-            <td>{{.Name}}</td>
-            <td>${{.Price}}</td>
-            <td>
-                <form method="POST" action="/remove-from-cart">
-                    <input type="hidden" name="item_id" value="{{.ID}}">
-                    <button type="submit">Remove</button>
-                </form>
-            </td>
-        </tr>
-        {{else}}
-        <tr><td colspan="3">Your cart is empty.</td></tr>
-        {{end}}
-    </table>
-    <br><a href="/shop">Continue Shopping</a>
+    <h1>Your Cart</h1>
+
+    {{ if .CartItems }}
+        {{ range .CartItems }}
+        <div class="item">
+            <h3>{{ .Name }}</h3>
+            <p>{{ .Description }}</p>
+            <p><strong>Price:</strong> ${{ printf "%.2f" .Price }}</p>
+            <form method="POST" action="/remove-from-cart">
+                <input type="hidden" name="item_id" value="{{ .ID }}">
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+        {{ end }}
+
+        <div class="actions">
+            <form method="POST" action="/process-order">
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+    {{ else }}
+        <p class="empty">Your cart is empty.</p>
+    {{ end }}
+    <p><a href="/shop">Back to shop</a></p>
 </body>
 </html>

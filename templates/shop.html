@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head><title>Welcome</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+        }
+        ul {
+            background: #333; 
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white; 
+            text-align: center;
+            text-decoration: none;
+            background-color: #444; 
+            padding: 14px 16px; 
+        }
+        li a:hover:not(.active){
+            background-color: #111;
+        }
+        li form:hover:not(.active){
+            background-color: #111;
+        }
+        li  input[type="submit"] {
+            float: left;
+            display: block;
+            color: white; 
+            text-align: center;
+            text-decoration: none;
+            background-color: #444; 
+            border-color: #444;
+            font-size: 15px;
+            padding: 14px 16px;
+        }
+    </style>
+    </head>
+<body>
+    <ul>
+            <li><a href="/cart">Cart</a></li>
+            <li><form action="/logout" method="post"><input type="submit" value="Logout"></form></li>
+    </ul>
+    <div>Welcome, {{.Username}}</div>
+    <h2>Shop</h2>
+    {{range .Items}}
+    <div class="item">
+        <h3>{{.Name}}</h3>
+        <p>{{.Description}}</p>
+        <p>Price: ${{.Price}}</p>
+        <form method="post" action="/add-to-cart">
+            <input type="hidden" name="item" value="{{.Name}}">
+            <button type="submit">Add to Cart</button>
+        </form>
+    </div>
+    {{else}}
+    <p>No items available.</p>
+    {{end}}
+</body>
+</html>
